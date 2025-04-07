@@ -1,6 +1,6 @@
 # InvoicePlane – Eigene Anpassungen
 
-Dieses Repository enthält alle lokalen Änderungen an der InvoicePlane-Installation auf davidt.de, mit Fokus auf PDF-Layouts, Styling und Kompatibilität mit Updates und deinem Workflow.
+Dieses Repository enthält alle lokalen Änderungen an meiner InvoicePlane-Installation  mit Fokus auf PDF-Layouts, Styling und Kompatibilität mit Updates und meinem Workflow.
 
 ---
 
@@ -55,7 +55,6 @@ assets/
   - Kontaktinformationen
   - Bankverbindung inkl. IBAN/BIC
 - Statische Inhalte vollständig entfernt
-- Design an Papierkram angelehnt
 
 ### Zahlungshinweise
 
@@ -65,8 +64,8 @@ assets/
 
 ### Styling
 
-- Verwendung von **Open Sans** wie auf davidt.de
-- Akzentfarbe: `#668100` (laut CI)
+- Verwendung von **Open Sans** 
+- Akzentfarbe: `#668100` 
 - Tabellenköpfe in hellgrau (`#f5f5f5`)
 - Hintergrund für Zeilen entfernt
 - Schriftgrößen an DIN-Richtlinien angepasst
@@ -97,30 +96,8 @@ if ($invoice->invoice_balance >= 0.01) {
 
 ---
 
-## 🚀 Deployment mit Nova
-
-### Empfohlener Task (Beispiel)
-
-```bash
-rsync -avz ./application/views/invoice_templates/ \
-      user@webhost:/pfad/invoiceplane/application/views/invoice_templates/
-
-rsync ./assets/core/css/custom.css \
-      user@webhost:/pfad/invoiceplane/assets/core/css/custom.css
-```
-
----
-
-## 📌 Nächstes To-do
-
-- Import alter Zahlungen
-- Abgleich Rechnungshistorie
-- Prüfung von Mahnstufen/Status
-- Optional: Automatisierter Monatsabschluss mit Entwurf-Rechnung
-
----
 
 ## ✍️ Autor
 
-Patrick „George“  
+Patrick 
 https://davidt.de
