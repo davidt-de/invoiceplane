@@ -79,13 +79,12 @@
         <table class="invoice-qr-code-table">
             <tr>
                 <td class="text-right" style="font-size: 7pt; height: 100px;">
-                    <?php if ($invoice->invoice_balance >= 0.01) : ?>
+                  
                         <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
                         <br> Bezahlen mit Giro-QR-Code
-                    <?php else : ?>
-                        <img src="<?php echo base_url('assets/core/img/overdue.png'); ?>"
-                             style="width: 180px; margin-top: 10px;" alt="Bezahlt-Stempel" />
-                    <?php endif; ?>
+                    
+                        
+                   
                 </td>
             </tr>
         </table>
@@ -236,12 +235,14 @@
     
 <div class="zahlungsbedingungen">
       <?php if ($invoice->invoice_balance > 0.00): ?>
+        
         <strong>Zahlungsbedingungen:</strong><br>
         Bitte begleichen Sie den offenen Betrag bis zum <?php echo date_from_mysql($invoice->invoice_date_due, true); ?>.<br>
         Die Zahlung ist möglich per:<br>
         • SEPA-Überweisung (bequem mit dem GiroCode oben rechts)<br>
         • Lastschrift oder Kreditkarte:
         <a href="<?php echo site_url('guest/view/invoice/' . $invoice->invoice_url_key); ?>">Jetzt online bezahlen</a>
+     
       <?php else: ?>
         <strong>Diese Rechnung wurde vollständig beglichen.</strong><br>
         Vielen Dank für Ihre Zahlung!
@@ -252,7 +253,7 @@
 
 <?php
 $count = count($items);
-$height = max(0, 270 - ($count * 27)); // Beispiel: weniger Posten = mehr Platz
+$height = max(0, 190 - ($count * 27)); // Beispiel: weniger Posten = mehr Platz
 if ($height > 0) {
     echo '<div style="height: ' . $height . 'px;">&nbsp;</div>';
 }
