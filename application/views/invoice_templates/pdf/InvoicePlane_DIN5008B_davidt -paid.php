@@ -252,7 +252,7 @@
 
 <?php
 $count = count($items);
-$height = max(0, 270 - ($count * 10)); // Beispiel: weniger Posten = mehr Platz
+$height = max(0, 270 - ($count * 27)); // Beispiel: weniger Posten = mehr Platz
 if ($height > 0) {
     echo '<div style="height: ' . $height . 'px;">&nbsp;</div>';
 }
