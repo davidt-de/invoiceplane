@@ -93,7 +93,7 @@
   <tr valign="top">
     <td width="25%">
      <strong>Betreff</strong><br  />
-      Hosting für <?php echo htmlsc($invoice->client_name); ?></td>
+      Hosting <?php echo htmlsc($invoice->client_web); ?></td>
       
       <td width="auto"><strong>Rechnungsnummer</strong><br  />
         <?php echo htmlsc($invoice->invoice_number); ?></td>
