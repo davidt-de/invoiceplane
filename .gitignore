@@ -1,0 +1,7 @@
+/.nova/
+/vendor/
+.htaccess
+index.php
+setup/
+application/config/database.php
+*.log
