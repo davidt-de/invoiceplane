@@ -5,84 +5,8 @@
     <title><?php _trans('invoice'); ?></title>
     <link rel="stylesheet"
           href="<?php echo base_url(); ?>assets/<?php echo get_setting('system_theme', 'invoiceplane'); ?>/css/templates.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css">
-    <style>
-/* general font size */
-body {
-  font-size: 12px;
-}
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css?cachebust=124">
 
-/* color of Invoice Heading fixed */
-.invoice-title {
-    color: #000000;
-}
-
-/* left space due to DIN 5008 2.5mm */
-main, footer {
-    margin-left: 2.5mm;
-}
-
-/* reduces padding in item-table */
-table.item-table td {
-    padding: 5px 10px;
-}
-
-/* defines german DIN_5008_Form_B sichtbriefumschlag position */
-#client {
-    position: absolute; 
-    top: 56mm;
-    left: 20mm;
-    width: 90mm;
-}
-
-/* reduced font-size for items */
-table.item-table {
-  font-size: 11px !important;
-}
-
-/* sender in sichtfenster */
-#sichtfenster-absender {
-  font-size: 8px;
-}
-
-/** Pfalzmarken DIN 5008 Form B */
-/* 105mm from top with offset */
-#pm-1{
-    position: absolute;
-    top: 101.8mm;
-    left: 5mm;
-    width: 5mm;
-}
-/* 148.5mm from top with offset */
-#pm-2{
-    position: absolute;
-    top: 145.3mm;
-    left: 5mm;
-    width: 7mm;
-}
-/* 210mm from top with offset */
-#pm-3{
-    position: absolute;
-    top: 206.8mm;
-    left: 5mm;
-    width: 5mm;
-}
-/* Deaktiviert den Zebra-Style der Tabelle */
-table.item-table tr:nth-child(2n-1) td {
-  background: transparent !important;
-}
-table.item-table thead {
-  background-color: #f0f0f0;
-}
-#logo {
-  float: left;
-  text-align: left !important;
-  margin-bottom: 20px;
-}
-footer {
-  border-top: 1px solid #878686;
-}
-    </style>
 </head>
 
 <body>
@@ -368,10 +292,12 @@ footer {
       </td>
       <td valign="top" width="25%">
         <strong>Kontakt:</strong><br>
-        Tel: 0172 2063265<br>
+        Tel: <?php if ($invoice->user_phone) {
+        echo $invoice->user_phone; } ?><br>
         E-Mail:  <?php if ($invoice->user_email) {
         echo $invoice->user_email; } ?><br>
-        Web: davidt.de
+        Web: <?php if ($invoice->user_web) {
+        echo $invoice->user_web; } ?>
       </td>
       <td  valign="top" width="25%" >
         <strong>Bankverbindung:</strong><br  />
