@@ -5,7 +5,7 @@
     <title><?php _trans('invoice'); ?></title>
     <link rel="stylesheet"
           href="<?php echo base_url(); ?>assets/<?php echo get_setting('system_theme', 'invoiceplane'); ?>/css/templates.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css?cachebust=124">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css?cachebust=1243">
 
 </head>
 
@@ -256,12 +256,12 @@
 
 
 
-<footer style="font-size: 8pt; margin-top: 30px;line-height: 1.3;">
+<footer>
 
   
-  <table width="100%">
+  <table class="footer-table">
     <tr valign="top">
-      <td valign="top" width="25%">
+      <td valign="top" width="30%">
        <b><?php _htmlsc($invoice->user_company); ?></b><br>
        <?php if ($invoice->user_address_1) {
            echo  htmlsc($invoice->user_address_1) . '<br>';
@@ -290,17 +290,17 @@
        
        ?>
       </td>
-      <td valign="top" width="25%">
-        <strong>Kontakt:</strong><br>
-        Tel: <?php if ($invoice->user_phone) {
-        echo $invoice->user_phone; } ?><br>
+      <td valign="top" width="30%">
+        <strong>Kontakt</strong><br>
+        Tel: <?php if ($invoice->user_mobile) {
+        echo $invoice->user_mobile; } ?><br>
         E-Mail:  <?php if ($invoice->user_email) {
         echo $invoice->user_email; } ?><br>
         Web: <?php if ($invoice->user_web) {
         echo $invoice->user_web; } ?>
       </td>
-      <td  valign="top" width="25%" >
-        <strong>Bankverbindung:</strong><br  />
+      <td  valign="top" width="30%" >
+        <strong>Bankverbindung</strong><br  />
         Bank: N26 Bank<br>
         IBAN: <?php if ($invoice->user_iban) {
         echo $invoice->user_iban; } ?><br>
@@ -308,7 +308,9 @@
         echo $invoice->user_subscribernumber; } ?>
        
       </td>
-      
+      <td align="right" valign="bottom" width="10%" >
+       Seite 1 von 1       
+      </td>
     </tr>
   </table>
 </footer>
