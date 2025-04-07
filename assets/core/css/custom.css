@@ -1,0 +1,11 @@
+/* =============================================================================
+   InvoicePlane
+   Custom Stylesheet
+
+   All changes made in this file will override the default styles.
+   ========================================================================== */
+   
+   img {
+         max-width: 200px;
+         height: auto;
+     }
