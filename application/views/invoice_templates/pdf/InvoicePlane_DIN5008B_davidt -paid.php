@@ -5,7 +5,7 @@
     <title><?php _trans('invoice'); ?></title>
     <link rel="stylesheet"
           href="<?php echo base_url(); ?>assets/<?php echo get_setting('system_theme', 'invoiceplane'); ?>/css/templates.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css?cachebust=12434353">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css?cachebust=124334353">
 
 </head>
 
@@ -72,7 +72,7 @@
    
 </header>
 
-<main style="min-height: 22cm;">
+<main>
 
 <div class="invoice-details clearfix">
     <?php if (get_setting('qr_code')) { ?>
@@ -234,7 +234,7 @@
         </tbody>
     </table>
     
-<div style="margin-top: 20px; font-size: 9pt; line-height: 1.4;">
+<div class="zahlungsbedingungen">
       <?php if ($invoice->invoice_balance > 0.00): ?>
         <strong>Zahlungsbedingungen:</strong><br>
         Bitte begleichen Sie den offenen Betrag bis zum <?php echo date_from_mysql($invoice->invoice_date_due, true); ?>.<br>
@@ -250,10 +250,14 @@
 </main>
 
 
-<!-- <div style="height: 200px;"></div> -->
-<?php if (count($items) < 10): ?>
-  <div style="height: 200px;"></div>
-<?php endif; ?>
+<?php
+$count = count($items);
+$height = max(0, 270 - ($count * 10)); // Beispiel: weniger Posten = mehr Platz
+if ($height > 0) {
+    echo '<div style="height: ' . $height . 'px;">&nbsp;</div>';
+}
+?>
+
 
 
 

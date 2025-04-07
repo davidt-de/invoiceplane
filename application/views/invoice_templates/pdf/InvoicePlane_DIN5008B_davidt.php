@@ -5,7 +5,7 @@
     <title><?php _trans('invoice'); ?></title>
     <link rel="stylesheet"
           href="<?php echo base_url(); ?>assets/<?php echo get_setting('system_theme', 'invoiceplane'); ?>/css/templates.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css?cachebust=124">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css?cachebust=13234">
 
 </head>
 
@@ -67,26 +67,26 @@
         <?php echo invoice_logo_pdf(); ?>
     </div>
 
-	<!-- client is extracted due to absolute position -->
-
-   
 </header>
 
 <main style="min-height: 22cm;">
 
-    <div class="invoice-details clearfix">
-       <?php if (get_setting('qr_code')) { ?>
-           <table class="invoice-qr-code-table">
-               <tr>
-                   
-                   <td class="text-right" style="font-size: 7pt">
-                       <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
-                       <br> Bezahlen mit Giro-QR-Code
-                     </td>
-               </tr>
-           </table>
-       <?php } ?>
-    </div>
+   <div class="invoice-details clearfix">
+     <?php if (get_setting('qr_code')) { ?>
+         <table class="invoice-qr-code-table">
+             <tr>
+                 <td class="text-right" style="font-size: 7pt; height: 100px; vertical-align: middle;">
+                     <?php if ($invoice->invoice_balance >= 0.01) : ?>
+                         <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
+                         <br> Bezahlen mit Giro-QR-Code
+                     <?php else : ?>
+                         <span style="display: inline-block; height: 80px;">&nbsp;</span>
+                     <?php endif; ?>
+                 </td>
+             </tr>
+         </table>
+     <?php } ?>
+ </div>
 
     <h1 class="invoice-title"><?php echo trans('invoice') . ' ' . $invoice->invoice_number; ?></h1>
 <table style="width: 100%; font-size: 9pt; margin-bottom: 20px;">
@@ -229,27 +229,35 @@
         </tbody>
     </table>
     
-<div style="margin-top: 20px; font-size: 9pt; line-height: 1.4;">
-      <strong>Zahlungsbedingungen:</strong><br>
-      Bitte begleichen Sie den offenen Betrag bis zum <?php echo date_from_mysql($invoice->invoice_date_due, true); ?>.<br>
-      Die Zahlung ist möglich per:<br>
-      • SEPA-Überweisung (bequem mit dem GiroCode oben rechts)<br>
-      • Lastschrift oder Kreditkarte: <a href="<?php echo site_url('guest/view/invoice/' . $invoice->invoice_url_key); ?>">Jetzt online bezahlen</a>
+<div class="zahlungsbedingungen">
+      <?php if ($invoice->invoice_balance > 0.00): ?>
+        <strong>Zahlungsbedingungen:</strong><br>
+        Bitte begleichen Sie den offenen Betrag bis zum <?php echo date_from_mysql($invoice->invoice_date_due, true); ?>.<br>
+        Die Zahlung ist möglich per:<br>
+        • SEPA-Überweisung (bequem mit dem GiroCode oben rechts)<br>
+        • Lastschrift oder Kreditkarte:
+        <a href="<?php echo site_url('guest/view/invoice/' . $invoice->invoice_url_key); ?>">Jetzt online bezahlen</a>
+      <?php else: ?>
+        <strong>Diese Rechnung wurde vollständig beglichen.</strong><br>
+        Vielen Dank für Ihre Zahlung!
+      <?php endif; ?>
     </div>
 
 </main>
 
 
-<!-- <div style="height: 200px;"></div> -->
-<?php if (count($items) < 10): ?>
-  <div style="height: 100px;"></div>
-<?php endif; ?>
+<?php
+$count = count($items);
+$height = max(0, 190 - ($count * 10)); // Beispiel: weniger Posten = mehr Platz
+if ($height > 0) {
+    echo '<div style="height: ' . $height . 'px;">&nbsp;</div>';
+}
+?>
 
 
-<footer style="font-size: 8pt; margin-top: 30px;line-height: 1.3;">
 
-  
-  <table width="100%">
+<footer>
+  <table class="footer-table">
     <tr valign="top">
       <td valign="top" width="25%">
        <b><?php _htmlsc($invoice->user_company); ?></b><br>
@@ -281,21 +289,25 @@
        ?>
       </td>
       <td valign="top" width="25%">
-        <strong>Kontakt:</strong><br>
-        Tel: 0172 2063265<br>
-        E-Mail: patrick@davidt.de<br>
-        Web: davidt.de
+        <strong>Kontakt</strong><br>
+        Tel: <?php if ($invoice->user_mobile) {
+        echo $invoice->user_mobile; } ?><br>
+        E-Mail:  <?php if ($invoice->user_email) {
+        echo $invoice->user_email; } ?><br>
+        Web: <?php if ($invoice->user_web) {
+        echo $invoice->user_web; } ?>
       </td>
       <td  valign="top" width="25%" >
-        <strong>Bankverbindung:</strong><br  />
+        <strong>Bankverbindung</strong><br  />
         Bank: N26 Bank<br>
         IBAN: <?php if ($invoice->user_iban) {
         echo $invoice->user_iban; } ?><br>
         BIC: <?php if ($invoice->user_subscribernumber) {
         echo $invoice->user_subscribernumber; } ?>
-       
       </td>
-      
+      <td align="right" valign="bottom" width="25%" >
+       Seite {PAGENO} von {nbpg}       
+      </td>
     </tr>
   </table>
 </footer>
