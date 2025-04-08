@@ -69,16 +69,18 @@
                         <?php if ($invoice->user_address_2) {
                             echo htmlsc($invoice->user_address_2) . '<br>';
                         } ?>
-                        <?php if ($invoice->user_city) {
-                            echo htmlsc($invoice->user_city) . ' ';
-                        } ?>
-                        <?php if ($invoice->user_state) {
-                            echo htmlsc($invoice->user_state) . ' ';
-                        } ?>
                         <?php if ($invoice->user_zip) {
-                            echo htmlsc($invoice->user_zip) . '<br>';
+                        echo htmlsc($invoice->user_zip) . ' ';
                         } ?>
-                        <?php if ($invoice->user_phone) { ?><?php echo trans('phone_abbr'); ?>: <?php echo htmlsc($invoice->user_phone); ?>
+                       
+                        <?php if ($invoice->user_city) {
+                            echo htmlsc($invoice->user_city) . '<br>';
+                        } ?>
+                       
+                       
+                       
+                        
+                        <?php if ($invoice->user_mobile) { ?><?php echo trans('phone_abbr'); ?>: <?php echo htmlsc($invoice->user_mobile); ?>
                             <br><?php } ?>
                         <?php if ($invoice->user_fax) { ?><?php echo trans('fax_abbr'); ?>: <?php echo htmlsc($invoice->user_fax); ?><?php } ?>
                         <?php if ($invoice->user_vat_id) {
@@ -92,8 +94,17 @@
                 </div>
                 <div class="col-lg-2"></div>
                 <div class="col-xs-12 col-md-6 col-lg-5 text-right">
-
-                    <h4><?php _htmlsc(format_client($invoice)); ?></h4>
+                     <?php
+                       if (!empty($custom_fields['client']['Firma'])) {
+                            echo '<h4>' . $custom_fields['client']['Firma'] . ' </h4>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . '<br>';
+                        } else {
+                            echo '<h4>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . ' </h4>';
+                        }
+                        ?>
+                    
+                   
+                    
+                    
                     <p><?php if ($invoice->client_vat_id) {
                             echo lang("vat_id_short") . ": " . $invoice->client_vat_id . '<br>';
                         } ?>
@@ -106,14 +117,11 @@
                         <?php if ($invoice->client_address_2) {
                             echo htmlsc($invoice->client_address_2) . '<br>';
                         } ?>
-                        <?php if ($invoice->client_city) {
-                            echo htmlsc($invoice->client_city) . ' ';
-                        } ?>
-                        <?php if ($invoice->client_state) {
-                            echo htmlsc($invoice->client_state) . ' ';
-                        } ?>
                         <?php if ($invoice->client_zip) {
-                            echo htmlsc($invoice->client_zip) . '<br>';
+                            echo htmlsc($invoice->client_zip) . ' ';
+                        } ?>
+                        <?php if ($invoice->client_city) {
+                            echo htmlsc($invoice->client_city) . '<br>';
                         } ?>
                         <?php if ($invoice->client_phone) {
                             echo trans('phone_abbr') . ': ' . htmlsc($invoice->client_phone); ?>
@@ -255,18 +263,21 @@
 
             <hr>
 
-            <?php if (get_setting('qr_code')) : ?>
+           <?php if (get_setting('qr_code')) { ?>
                 <table class="invoice-qr-code-table">
                     <tr>
-                       <td class="text-right" style="font-size: 7pt">
-                          <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
-                          <br> Bezahlen mit Giro-QR-Code
+                        <td class="text-right" style="font-size: 7pt;">
+                            <?php if ($invoice->invoice_balance >= 0.01) : ?>
+                                <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
+                                <br> Bezahlen mit Giro-QR-Code
+                            <?php else : ?>
+                                <span style="display: inline-block; height: 80px;">&nbsp;</span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 </table>
-
-                <hr>
-            <?php endif; ?>
+                <hr  />
+            <?php } ?>
 
             <div class="row">
 

@@ -23,7 +23,14 @@
 		<hr />
 	</div>
 	<div>
-		<b><?php _htmlsc(format_client($invoice)); ?></b>
+    <?php
+     if (!empty($custom_fields['client']['Firma'])) {
+          echo '<b>' . $custom_fields['client']['Firma'] . ' </b><br>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . '<br>';
+      } else {
+          echo '<b>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . ' </b>';
+      }
+      ?>
+
 	</div>
 	<?php if ($invoice->client_vat_id) {
 		echo '<div>' . trans('vat_id_short') . ': ' . $invoice->client_vat_id . '</div>';
