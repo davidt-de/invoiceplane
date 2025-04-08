@@ -18,7 +18,7 @@ $lang = array(
 'mrs'                                          => 'Frau',
 'doctor'                                       => 'Dr.',
 'professor'                                    => 'Prof.',
-'company'                                      => 'Firma',
-'none'                                         => 'keine',
 'custom'                                       => 'benutzerdefiniert',
+'vat_id'                                       => 'Umsatzsteuer-Identifikationsnummer',
+'vat_id_short'                                 => 'USt-IdNr.',
 );
