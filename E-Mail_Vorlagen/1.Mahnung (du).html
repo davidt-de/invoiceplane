@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Freundliche Erinnerung: Rechnung {{{invoice_number}}}</title>
+  <style>
+	body {
+	  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+	  color: #333;
+	  background-color: #f9f9f9;
+	  padding: 20px;
+	}
+	.container {
+	  max-width: 600px;
+	  margin: auto;
+	  background: #ffffff;
+	  padding: 30px;
+	  border-radius: 8px;
+	  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+	}
+	.header {
+	  font-size: 1.5em;
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	  color: #444;
+	}
+	.content {
+	  font-size: 1em;
+	  line-height: 1.6;
+	}
+	.button {
+	  display: inline-block;
+	  margin-top: 20px;
+	  padding: 12px 20px;
+	  background-color: #2d89ef;
+	  color: #fff !important;
+	  text-decoration: none;
+	  border-radius: 4px;
+	}
+	.footer {
+	  font-size: 0.8em;
+	  color: #888;
+	  margin-top: 30px;
+	}
+  </style>
+</head>
+<body>
+  <div class="container">
+	<div class="header">
+	  Freundliche Erinnerung: Rechnung {{{invoice_number}}}
+	</div>
+
+	<div class="content">
+	  <p>{{{ip_cf_3}}} {{{client_name}}},</p>
+
+	  <p>manchmal geht im Alltag etwas unter – das kennen wir alle. Daher möchte ich dich ganz freundlich daran erinnern, dass die Rechnung <strong>{{{invoice_number}}}</strong> über <strong>{{{invoice_total}}}</strong> seit dem <strong>{{{invoice_due_date}}}</strong> zur Zahlung fällig ist.</p>
+
+	  <p>Falls du sie bereits überwiesen hast, dann brauchst du nichts weiter zu tun – in dem Fall einfach diese Nachricht ignorieren. Falls nicht, findest du hier nochmal den Link zur Rechnung und Bezahlung:</p>
+
+	  <p>
+		<a href="{{{invoice_guest_url}}}" class="button">
+		  ➤ Jetzt bequem online bezahlen
+		</a>
+	  </p>
+<p>Oder du überweist  wie gewohnt. Die Rechnung findest du auch noch einmal im Anhang.</p>
+
+	  <p>Vielen Dank und herzliche Grüße<br>Der Buchhaltungs-Bot von {{{user_web}}}</p>
+	</div>
+
+	<div class="footer">
+	  Diese Nachricht wurde automatisch versendet. Bei Rückfragen melde dich gerne unter {{{user_email}}}.
+	</div>
+  </div>
+</body>
+</html>
