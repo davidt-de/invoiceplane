@@ -160,7 +160,35 @@
             </div>
 
             <br>
-
+            <div class="table-responsive">
+<table style="width: 100%; font-size: 9pt; margin-bottom: 20px;">
+              <tr valign="top">
+               <td width="25%">
+                 <strong>Betreff</strong><br />
+                 <?php
+                   if (!empty($invoice->invoice_terms)) {
+                       echo htmlsc($invoice->invoice_terms);
+                   } else {
+                       echo 'Hosting ' . htmlsc($invoice->client_web);
+                   }
+                 ?>
+               </td>
+                  
+                  <td width="auto"><strong>Rechnungsnummer</strong><br  />
+                    <?php echo htmlsc($invoice->invoice_number); ?></td>
+                 
+                 
+                    <td width="auto"><strong>Kundennummer</strong><br  />
+                      <?php echo str_pad($invoice->client_id, 5, '0', STR_PAD_LEFT); ?></td>
+                      
+                      <td width="auto"> <strong>Leistungszeitraum</strong><br  />
+                      <?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
+            
+                    <td width="auto" align="right"><strong>Datum</strong><br  />
+                    <?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
+                  </tr>
+                </table>
+            </div>
             <div class="invoice-items">
                 <div class="table-responsive">
                     <table class="table ">
@@ -284,13 +312,7 @@
 
             <div class="row">
 
-                <?php if ($invoice->invoice_terms) { ?>
-                    <div class="col-xs-12 col-md-6">
-                        <h4><?php echo trans('terms'); ?></h4>
-                        <p><?php echo nl2br(htmlsc($invoice->invoice_terms)); ?></p>
-                    </div>
-                <?php } ?>
-
+                
                 <?php
                 if (count($attachments) > 0) { ?>
                     <div class="col-xs-12 col-md-6">
