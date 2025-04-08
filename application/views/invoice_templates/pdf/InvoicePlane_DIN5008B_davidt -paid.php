@@ -101,9 +101,16 @@
     <h1 class="invoice-title"><?php echo trans('invoice') . ' ' . $invoice->invoice_number; ?></h1>
 <table style="width: 100%; font-size: 9pt; margin-bottom: 20px;">
   <tr valign="top">
-    <td width="25%">
-     <strong>Betreff</strong><br  />
-      Hosting <?php echo htmlsc($invoice->client_web); ?></td>
+   <td width="25%">
+     <strong>Betreff</strong><br />
+     <?php
+       if (!empty($invoice->invoice_terms)) {
+           echo htmlsc($invoice->invoice_terms);
+       } else {
+           echo 'Hosting ' . htmlsc($invoice->client_web);
+       }
+     ?>
+   </td>
       
       <td width="auto"><strong>Rechnungsnummer</strong><br  />
         <?php echo htmlsc($invoice->invoice_number); ?></td>
@@ -137,27 +144,27 @@
         <?php
         foreach ($items as $item) { ?>
             <tr>
-                <td><?php _htmlsc($item->item_name); ?></td>
-                <td><?php echo nl2br(htmlsc($item->item_description)); ?></td>
-                <td class="text-right">
-                    <?php echo format_amount($item->item_quantity); ?>
-                    <?php if ($item->item_product_unit) : ?>
-                        <br>
-                        <small><?php _htmlsc($item->item_product_unit); ?></small>
-                    <?php endif; ?>
-                </td>
-                <td class="text-right">
-                    <?php echo format_currency($item->item_price); ?>
-                </td>
-                <?php if ($show_item_discounts) : ?>
-                    <td class="text-right">
-                        <?php echo format_currency($item->item_discount); ?>
-                    </td>
-                <?php endif; ?>
-                <td class="text-right">
-                    <?php echo format_currency($item->item_total); ?>
-                </td>
-            </tr>
+                 <td><?php _htmlsc($item->item_name); ?></td>
+                 <td><?php echo nl2br(htmlsc($item->item_description)); ?></td>
+                 <td class="text-right">
+                    <?php echo format_quantity($item->item_quantity); ?>
+                     <?php if ($item->item_product_unit) : ?>
+                         <br>
+                         <small><?php _htmlsc($item->item_product_unit); ?></small>
+                     <?php endif; ?>
+                 </td>
+                 <td class="text-right">
+                 <?php echo format_amount($item->item_price, true, 4) . '&nbsp;€'; ?>                   
+                 </td>
+                 <?php if ($show_item_discounts) : ?>
+                     <td class="text-right">
+                         <?php echo format_currency($item->item_discount); ?>
+                     </td>
+                 <?php endif; ?>
+                 <td class="text-right">
+                     <?php echo format_currency($item->item_subtotal); ?>
+                 </td>
+             </tr>
         <?php } ?>
 
         </tbody>
@@ -184,7 +191,8 @@
         <?php foreach ($invoice_tax_rates as $invoice_tax_rate) : ?>
             <tr>
                 <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
-                    <?php echo htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' (' . format_amount($invoice_tax_rate->invoice_tax_rate_percent) . '%)'; ?>
+                <?php echo 'zzgl. ' htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' ' . number_format($invoice_tax_rate->invoice_tax_rate_percent, 0, ',', '') . '%'; ?>; 
+                 
                 </td>
                 <td class="text-right">
                     <?php echo format_currency($invoice_tax_rate->invoice_tax_rate_amount); ?>
