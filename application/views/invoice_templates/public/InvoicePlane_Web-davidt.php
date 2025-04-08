@@ -59,7 +59,7 @@
             ?>
 
             <div class="row">
-                <div class="col-xs-12 col-md-6 col-lg-5">
+                <div class="col-xs-12 col-md-5 col-lg-5">
 
                     <h4><?php _htmlsc($invoice->user_company); ?></h4>
                     <p>
@@ -92,8 +92,21 @@
                     </p>
 
                 </div>
-                <div class="col-lg-2"></div>
-                <div class="col-xs-12 col-md-6 col-lg-5 text-right">
+                <div class="col-xs-12 col-md-2 col-lg-2 text-right">
+                    <?php if (get_setting('qr_code')) { ?>
+                     
+                                    <?php if ($invoice->invoice_balance >= 0.01) : ?>
+                                        <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
+                                        <br> Bezahlen mit Giro-QR-Code
+                                    <?php else : ?>
+                                        &nbsp;
+                                    <?php endif; ?>
+                    <?php } ?>
+                    
+                    
+                </div>
+                
+                <div class="col-xs-12 col-md-5 col-lg-5 text-right">
                      <?php
                        if (!empty($custom_fields['client']['Firma'])) {
                             echo '<h4>' . $custom_fields['client']['Firma'] . ' </h4>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . '<br>';
