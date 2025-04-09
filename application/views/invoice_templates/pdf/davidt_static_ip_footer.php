@@ -151,7 +151,7 @@
                     <?php endif; ?>
                 </td>
                 <td class="text-right">
-                <?php echo format_amount($item->item_price, true, 4) . '&nbsp;€'; ?>                   
+                  <?php echo number_format($item->item_price, 2, ',', '') . '&nbsp;€'; ?>    
                 </td>
                 <?php if ($show_item_discounts) : ?>
                     <td class="text-right">
