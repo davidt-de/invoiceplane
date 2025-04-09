@@ -1,3 +1,5 @@
+<!-- HTML-Vorlagen für InvoicePlane – neutral formuliert, professionell & sympathisch -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +30,15 @@
 	  font-size: 1em;
 	  line-height: 1.6;
 	}
+	.button {
+	  display: inline-block;
+	  margin-top: 20px;
+	  padding: 12px 20px;
+	  background-color: #2d89ef;
+	  color: #fff !important;
+	  text-decoration: none;
+	  border-radius: 4px;
+	}
 	.footer {
 	  font-size: 0.8em;
 	  color: #888;
@@ -38,24 +49,20 @@
 <body>
   <div class="container">
 	<div class="header">
-	  Zahlungseingang zu Ihrer Rechnung {{{invoice_number}}}
+	  Zahlung verbucht: Rechnung {{{invoice_number}}}
 	</div>
 
 	<div class="content">
-	  <p>Hallo {{{client_name}}} {{{client_surname}}},</p>
+	  <p>Ich habe eine Zahlung über <strong>{{{payment_amount}}}</strong> zur Rechnung <strong>{{{invoice_number}}}</strong> verbucht.</p>
 
-	  <p>wir haben Ihre Zahlung in Höhe von <strong>{{{invoice_paid}}}</strong> zur Rechnung <strong>{{{invoice_number}}}</strong> erhalten.</p>
+	  <p>Der Vorgang ist damit abgeschlossen.</p>
 
-	  <p>Vielen Dank für die fristgerechte Begleichung. Das Dokument gilt damit als vollständig bezahlt.</p>
+	  <p>Bei Rückfragen zum Dokument einfach melden – ich bin gern da.</p>
 
-	  <p>Bei Rückfragen zur Zahlung oder zum Leistungszeitraum schreiben Sie uns einfach – wir helfen gern weiter.</p>
-
-	  <p>Viele Grüße<br>Der Buchhaltungs-Bot von {{{user_web}}}</p>
-	</div>
-
-	<div class="footer">
-	  Diese Nachricht wurde automatisch versendet. Bitte antworten Sie bei Rückfragen direkt an {{{user_email}}}.
+	  <p>Viele Grüße<br>Der Rechnungsassistent von davidt.de</p>
 	</div>
   </div>
 </body>
 </html>
+
+

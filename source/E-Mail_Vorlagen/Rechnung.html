@@ -1,8 +1,10 @@
+<!-- HTML-Vorlagen für InvoicePlane – neutral formuliert, professionell & sympathisch -->
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Freundliche Erinnerung: Rechnung {{{invoice_number}}}</title>
+  <title>{{{invoice_number}}}</title>
   <style>
 	body {
 	  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -22,7 +24,7 @@
 	  font-size: 1.5em;
 	  font-weight: bold;
 	  margin-bottom: 10px;
-	  color: #444;
+	  color: #222;
 	}
 	.content {
 	  font-size: 1em;
@@ -47,22 +49,29 @@
 <body>
   <div class="container">
 	<div class="header">
-	  Freundliche Erinnerung: Rechnung {{{invoice_number}}}
+	  Neues Dokument: Rechnung {{{invoice_number}}}
 	</div>
 
 	<div class="content">
-	  <p>{{{ip_cf_3}}} {{{client_name}}},</p>
+	  <p>Ich habe die Rechnung <strong>{{{invoice_number}}}</strong> über <strong>{{{invoice_total}}}</strong> erstellt. Das PDF liegt im Anhang bei.</p>
 
-	  <p>manchmal geht im Alltag etwas unter – das kennen wir alle. Daher möchte ich dich ganz freundlich daran erinnern, dass die Rechnung <strong>{{{invoice_number}}}</strong> über <strong>{{{invoice_total}}}</strong> seit dem <strong>{{{invoice_date_due}}}</strong> zur Zahlung fällig ist.</p>
+	  <p>Die Zahlung kann wie gewohnt per Überweisung oder bequem online erfolgen:</p>
 
-	  <p>Falls du sie bereits überwiesen hast, dann brauchst du nichts weiter zu tun – in dem Fall einfach diese Nachricht ignorieren. Falls nicht, findest du die Rechnung auch noch einmal im Anhang.</p>
+	  <p>
+		<a href="{{{invoice_guest_url}}}" class="button">
+		  Jetzt online bezahlen
+		</a>
+	  </p>
 
-	  <p>Vielen Dank und herzliche Grüße<br>Der Buchhaltungs-Bot von {{{user_web}}}</p>
+	  <p>Rückfragen zum Dokument oder zum Leistungszeitraum? Ich helfe gern weiter.</p>
+
+	  <p>Viele Grüße<br>Der Rechnungsassistent von davidt.de</p>
 	</div>
 
 	<div class="footer">
-	  Diese Nachricht wurde automatisch versendet. Bei Rückfragen melde dich gerne unter {{{user_email}}}.
+	  Diese Nachricht wurde automatisch versendet. Kontakt: {{{user_email}}}
 	</div>
   </div>
 </body>
 </html>
+
