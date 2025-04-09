@@ -96,8 +96,9 @@
                     <?php if (get_setting('qr_code')) { ?>
                      
                                     <?php if ($invoice->invoice_balance >= 0.01) : ?>
+                                        Bezahlen mit Giro-QR-Code<br>
                                         <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
-                                        <br> Bezahlen mit Giro-QR-Code
+                                        
                                     <?php else : ?>
                                         &nbsp;
                                     <?php endif; ?>
@@ -227,7 +228,8 @@
                                         <small><?php _htmlsc($item->item_product_unit); ?></small>
                                     <?php endif; ?>
                                 </td>
-                                <td class="amount"><?php echo format_currency($item->item_price); ?></td>
+                                <td class="amount">
+                                <?php echo format_amount($item->item_price, true, 4) . '&nbsp;€'; ?> </td>
                                 <td class="amount"><?php echo format_currency($item->item_discount); ?></td>
                                 <td class="amount"><?php echo format_currency($item->item_total); ?></td>
                             </tr>
@@ -250,7 +252,7 @@
                             <tr>
                                 <td class="no-bottom-border" colspan="4"></td>
                                 <td class="text-right">
-                                    <?php echo htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' ' . number_format($invoice_tax_rate->invoice_tax_rate_percent, 0, ',', ''); 
+                                    <?php echo 'Zzgl. ' . htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' ' . number_format($invoice_tax_rate->invoice_tax_rate_percent, 0, ',', ''); 
                                      ?>
                                     %
                                 </td>
@@ -307,21 +309,7 @@
 
             <hr>
 
-           <?php if (get_setting('qr_code')) { ?>
-                <table class="invoice-qr-code-table">
-                    <tr>
-                        <td class="text-right" style="font-size: 7pt;">
-                            <?php if ($invoice->invoice_balance >= 0.01) : ?>
-                                <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
-                                <br> Bezahlen mit Giro-QR-Code
-                            <?php else : ?>
-                                <span style="display: inline-block; height: 80px;">&nbsp;</span>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                </table>
-                <hr  />
-            <?php } ?>
+
 
             <div class="row">
 
