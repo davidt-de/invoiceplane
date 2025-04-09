@@ -1,0 +1,43 @@
+<div>
+ <?php
+   if (!empty($custom_fields['client']['Firma'])) {
+		echo '<b>' . $custom_fields['client']['Firma'] . ' </b><br>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . '<br>';
+	} else {
+		echo '<b>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . ' </b>';
+	}
+	?>	</div>
+	<?php if ($invoice->client_vat_id) {
+		echo '<div>' . trans('vat_id_short') . ': ' . $invoice->client_vat_id . '</div>';
+	}
+	if ($invoice->client_tax_code) {
+		echo '<div>' . trans('tax_code_short') . ': ' . $invoice->client_tax_code . '</div>';
+	}
+	if ($invoice->client_address_1) {
+		echo '<div>' . htmlsc($invoice->client_address_1) . '</div>';
+	}
+	if ($invoice->client_address_2) {
+		echo '<div>' . htmlsc($invoice->client_address_2) . '</div>';
+	}
+	if ($invoice->client_city || $invoice->client_state || $invoice->client_zip) {
+		echo '<div>';
+		if ($invoice->client_zip) {
+			echo htmlsc($invoice->client_zip) . ' ';
+		}
+		if ($invoice->client_city) {
+			echo htmlsc($invoice->client_city) . ' ';
+		}
+		if ($invoice->client_state) {
+			echo htmlsc($invoice->client_state);
+		}
+		echo '</div>';
+	}
+	if ($invoice->client_country) {
+		echo '<div>' . get_country_name(trans('cldr'), $invoice->client_country) . '</div>';
+	}
+
+	echo '<br/>';
+
+	if ($invoice->client_phone) {
+		echo '<div>' . trans('phone_abbr') . ': ' . htmlsc($invoice->client_phone) . '</div>';
+	} ?>
+</div>

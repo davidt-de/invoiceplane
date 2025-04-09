@@ -1,0 +1,17 @@
+<div class="invoice-details clearfix">
+	<?php if (get_setting('qr_code')) { ?>
+		<table class="invoice-qr-code-table">
+			<tr>
+				<td class="text-right" style="font-size: 7pt; height: 100px;">
+					<?php if ($invoice->invoice_balance >= 0.01) : ?>
+						<?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
+						<br> Bezahlen mit Giro-QR-Code
+					<?php else : ?>
+						<img src="<?php echo base_url('assets/core/img/paid.png'); ?>"
+							 style="width: 180px; margin-top: 10px;" alt="Bezahlt-Stempel" />
+					<?php endif; ?>
+				</td>
+			</tr>
+		</table>
+	<?php } ?>
+</div>
