@@ -228,7 +228,7 @@
                                     <?php endif; ?>
                                 </td>
                                 <td class="amount">
-                                <?php echo format_amount($item->item_price, true, 4) . '&nbsp;€'; ?> </td>
+                                <?php echo format_currency($item->item_price); ?> </td>
                                 <td class="amount"><?php echo format_currency($item->item_discount); ?></td>
                                 <td class="amount"><?php echo format_currency($item->item_total); ?></td>
                             </tr>
@@ -298,10 +298,10 @@
                 </div>
 
                 <?php if ($invoice->invoice_balance == 0) {
-                    echo '<img src="' . base_url('assets/core/img/paid.png') . '" class="paid-stamp">';
+                    echo '<img src="' . base_url('assets/core/img/bezahlt.png') . '" class="paid-stamp">';
                 } ?>
                 <?php if ($is_overdue) {
-                    echo '<img src="' . base_url('assets/core/img/overdue.png') . '" class="overdue-stamp">';
+                    echo '<img src="' . base_url('assets/core/img/ueberfaellig.png') . '" class="overdue-stamp">';
                 } ?>
 
             </div><!-- .invoice-items -->
