@@ -228,7 +228,7 @@
     </table>
     
 <p class="outro">
-     Dieses Angebot ist gültig bis zum  <?php echo date_from_mysql($quote->quote_date_expires, true); ?>. Sollten Sie Fragen oder Änderungswünsche haben, melden Sie sich gerne – ich bin jederzeit für Sie da.
+     Dieses Angebot ist gültig bis zum  <?php echo date_from_mysql($quote->quote_date_expires, true); ?>.<br  />Sollten Sie Fragen oder Änderungswünsche haben, melden Sie sich gerne – ich bin jederzeit für Sie da. <br  /><br  />Viele Grüße<br  />Patrick Davidt
      </p>
 
 </main>
