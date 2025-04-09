@@ -13,8 +13,7 @@
 
     <link rel="stylesheet"
           href="<?php echo base_url(); ?>assets/<?php echo get_setting('system_theme', 'invoiceplane'); ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom.css?cache=65487">
-    
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom.css">
 </head>
 <body>
 
@@ -59,66 +58,40 @@
             ?>
 
             <div class="row">
-                <div class="col-xs-12 col-md-5 col-lg-5">
+                <div class="col-xs-12 col-md-6 col-lg-5">
 
-                    <h4><?php _htmlsc($invoice->user_company); ?></h4>
-                    <p>
+                    <h4><?php _htmlsc($invoice->user_name); ?></h4>
+                    <p><?php if ($invoice->user_vat_id) {
+                            echo lang("vat_id_short") . ": " . $invoice->user_vat_id . '<br>';
+                        } ?>
+                        <?php if ($invoice->user_tax_code) {
+                            echo lang("tax_code_short") . ": " . $invoice->user_tax_code . '<br>';
+                        } ?>
                         <?php if ($invoice->user_address_1) {
                             echo htmlsc($invoice->user_address_1) . '<br>';
                         } ?>
                         <?php if ($invoice->user_address_2) {
                             echo htmlsc($invoice->user_address_2) . '<br>';
                         } ?>
-                        <?php if ($invoice->user_zip) {
-                        echo htmlsc($invoice->user_zip) . ' ';
-                        } ?>
-                       
                         <?php if ($invoice->user_city) {
-                            echo htmlsc($invoice->user_city) . '<br>';
+                            echo htmlsc($invoice->user_city) . ' ';
                         } ?>
-                       
-                       
-                       
-                        
-                        <?php if ($invoice->user_mobile) { ?><?php echo trans('phone_abbr'); ?>: <?php echo htmlsc($invoice->user_mobile); ?>
+                        <?php if ($invoice->user_state) {
+                            echo htmlsc($invoice->user_state) . ' ';
+                        } ?>
+                        <?php if ($invoice->user_zip) {
+                            echo htmlsc($invoice->user_zip) . '<br>';
+                        } ?>
+                        <?php if ($invoice->user_phone) { ?><?php echo trans('phone_abbr'); ?>: <?php echo htmlsc($invoice->user_phone); ?>
                             <br><?php } ?>
                         <?php if ($invoice->user_fax) { ?><?php echo trans('fax_abbr'); ?>: <?php echo htmlsc($invoice->user_fax); ?><?php } ?>
-                        <?php if ($invoice->user_vat_id) {
-                            echo lang("vat_id_short") . ": " . $invoice->user_vat_id . '<br>';
-                        } ?>
-                        <?php if ($invoice->user_tax_code) {
-                            echo lang("tax_code_short") . ": " . $invoice->user_tax_code . '<br>';
-                        } ?>
                     </p>
 
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2 text-right">
-                    <?php if (get_setting('qr_code')) { ?>
-                     
-                                    <?php if ($invoice->invoice_balance >= 0.01) : ?>
-                                        Bezahlen mit Giro-QR-Code<br>
-                                        <?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
-                                        
-                                    <?php else : ?>
-                                        &nbsp;
-                                    <?php endif; ?>
-                    <?php } ?>
-                    
-                    
-                </div>
-                
-                <div class="col-xs-12 col-md-5 col-lg-5 text-right">
-                     <?php
-                       if (!empty($custom_fields['client']['Firma'])) {
-                            echo '<h4>' . $custom_fields['client']['Firma'] . ' </h4>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . '<br>';
-                        } else {
-                            echo '<h4>' . lang($invoice->client_title) . ' ' . $invoice->client_name  . ' ' . $invoice->client_surname . ' </h4>';
-                        }
-                        ?>
-                    
-                   
-                    
-                    
+                <div class="col-lg-2"></div>
+                <div class="col-xs-12 col-md-6 col-lg-5 text-right">
+
+                    <h4><?php _htmlsc(format_client($invoice)); ?></h4>
                     <p><?php if ($invoice->client_vat_id) {
                             echo lang("vat_id_short") . ": " . $invoice->client_vat_id . '<br>';
                         } ?>
@@ -131,11 +104,14 @@
                         <?php if ($invoice->client_address_2) {
                             echo htmlsc($invoice->client_address_2) . '<br>';
                         } ?>
-                        <?php if ($invoice->client_zip) {
-                            echo htmlsc($invoice->client_zip) . ' ';
-                        } ?>
                         <?php if ($invoice->client_city) {
-                            echo htmlsc($invoice->client_city) . '<br>';
+                            echo htmlsc($invoice->client_city) . ' ';
+                        } ?>
+                        <?php if ($invoice->client_state) {
+                            echo htmlsc($invoice->client_state) . ' ';
+                        } ?>
+                        <?php if ($invoice->client_zip) {
+                            echo htmlsc($invoice->client_zip) . '<br>';
                         } ?>
                         <?php if ($invoice->client_phone) {
                             echo trans('phone_abbr') . ': ' . htmlsc($invoice->client_phone); ?>
@@ -174,39 +150,11 @@
             </div>
 
             <br>
-            <div class="table-responsive">
-<table style="width: 100%; font-size: 9pt; margin-bottom: 20px;">
-              <tr valign="top">
-               <td width="25%">
-                 <strong>Betreff</strong><br />
-                 <?php
-                   if (!empty($invoice->invoice_terms)) {
-                       echo htmlsc($invoice->invoice_terms);
-                   } else {
-                       echo 'Hosting ' . htmlsc($invoice->client_web);
-                   }
-                 ?>
-               </td>
-                  
-                  <td width="auto"><strong>Rechnungsnummer</strong><br  />
-                    <?php echo htmlsc($invoice->invoice_number); ?></td>
-                 
-                 
-                    <td width="auto"><strong>Kundennummer</strong><br  />
-                      <?php echo str_pad($invoice->client_id, 5, '0', STR_PAD_LEFT); ?></td>
-                      
-                      <td width="auto"> <strong>Leistungszeitraum</strong><br  />
-                      <?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
-            
-                    <td width="auto" align="right"><strong>Datum</strong><br  />
-                    <?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
-                  </tr>
-                </table>
-            </div>
+
             <div class="invoice-items">
                 <div class="table-responsive">
-                    <table class="table ">
-                        <thead style="background-color: #f0f0f0">
+                    <table class="table table-striped table-bordered">
+                        <thead>
                         <tr>
                             <th><?php echo trans('item'); ?></th>
                             <th><?php echo trans('description'); ?></th>
@@ -228,10 +176,9 @@
                                         <small><?php _htmlsc($item->item_product_unit); ?></small>
                                     <?php endif; ?>
                                 </td>
-                                <td class="amount">
-                                <?php echo format_amount($item->item_price, true, 4) . '&nbsp;€'; ?> </td>
+                                <td class="amount"><?php echo format_currency($item->item_price); ?></td>
                                 <td class="amount"><?php echo format_currency($item->item_discount); ?></td>
-                                <td class="amount"><?php echo format_currency($item->item_total); ?></td>
+                                <td class="amount"><?php echo format_currency($item->item_subtotal); ?></td>
                             </tr>
                         <?php endforeach ?>
                         <tr>
@@ -243,7 +190,7 @@
                         <?php if ($invoice->invoice_item_tax_total > 0) { ?>
                             <tr>
                                 <td class="no-bottom-border" colspan="4"></td>
-                                <td class="text-right"><?php echo 'zzgl. 19% USt.'; ?></td>
+                                <td class="text-right"><?php echo trans('item_tax'); ?></td>
                                 <td class="amount"><?php echo format_currency($invoice->invoice_item_tax_total); ?></td>
                             </tr>
                         <?php } ?>
@@ -252,29 +199,26 @@
                             <tr>
                                 <td class="no-bottom-border" colspan="4"></td>
                                 <td class="text-right">
-                                    <?php echo 'Zzgl. ' . htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' ' . number_format($invoice_tax_rate->invoice_tax_rate_percent, 0, ',', ''); 
-                                     ?>
+                                    <?php echo htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' ' . format_amount($invoice_tax_rate->invoice_tax_rate_percent); ?>
                                     %
                                 </td>
                                 <td class="amount"><?php echo format_currency($invoice_tax_rate->invoice_tax_rate_amount); ?></td>
                             </tr>
                         <?php endforeach ?>
 
-                        <?php if ($invoice->invoice_discount_percent > 0 || $invoice->invoice_discount_amount > 0) : ?>
-                            <tr>
-                                <td class="no-bottom-border" colspan="4"></td>
-                                <td class="text-right"><?php echo trans('discount'); ?>:</td>
-                                <td class="amount">
-                                    <?php
-                                    if ($invoice->invoice_discount_percent > 0) {
-                                        echo format_amount($invoice->invoice_discount_percent) . ' %';
-                                    } else {
-                                        echo format_amount($invoice->invoice_discount_amount);
-                                    }
-                                    ?>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
+                        <tr>
+                            <td class="no-bottom-border" colspan="4"></td>
+                            <td class="text-right"><?php echo trans('discount'); ?>:</td>
+                            <td class="amount">
+                                <?php
+                                if ($invoice->invoice_discount_percent > 0) {
+                                    echo format_amount($invoice->invoice_discount_percent) . ' %';
+                                } else {
+                                    echo format_amount($invoice->invoice_discount_amount);
+                                }
+                                ?>
+                            </td>
+                        </tr>
 
                         <tr>
                             <td class="no-bottom-border" colspan="4"></td>
@@ -309,11 +253,45 @@
 
             <hr>
 
+            <?php if (get_setting('qr_code')) : ?>
+                <table class="invoice-qr-code-table">
+                    <tr>
+                        <td>
+                            <div>
+                                <strong><?php _trans('qr_code_settings_recipient'); ?>:</strong>
+                                <?php echo get_setting('qr_code_recipient'); ?>
+                            </div>
+                            <div>
+                                <strong><?php _trans('qr_code_settings_iban'); ?>:</strong>
+                                <?php echo get_setting('qr_code_iban'); ?>
+                            </div>
+                            <div>
+                                <strong><?php _trans('qr_code_settings_bic'); ?>:</strong>
+                                <?php echo get_setting('qr_code_bic'); ?>
+                            </div>
+                            <div>
+                                <strong><?php _trans('qr_code_settings_remittance_text'); ?>:</strong>
+                                <?php echo parse_template($invoice, get_setting('qr_code_remittance_text')); ?>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <?php echo invoice_qrcode($invoice->invoice_id); ?>
+                        </td>
+                    </tr>
+                </table>
 
+                <hr>
+            <?php endif; ?>
 
             <div class="row">
 
-                
+                <?php if ($invoice->invoice_terms) { ?>
+                    <div class="col-xs-12 col-md-6">
+                        <h4><?php echo trans('terms'); ?></h4>
+                        <p><?php echo nl2br(htmlsc($invoice->invoice_terms)); ?></p>
+                    </div>
+                <?php } ?>
+
                 <?php
                 if (count($attachments) > 0) { ?>
                     <div class="col-xs-12 col-md-6">

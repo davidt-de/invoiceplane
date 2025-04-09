@@ -1,4 +1,5 @@
-/.nova/
+.nova/
+build/
 /vendor/
 .htaccess
 index.php
@@ -10,3 +11,4 @@ application/views/invoice_templates/pdf/InvoicePlane - paid.php
 application/views/invoice_templates/pdf/InvoicePlane.php
 application/views/invoice_templates/public/InvoicePlane_Web.php
 .DS_Store
+config.codekit3
