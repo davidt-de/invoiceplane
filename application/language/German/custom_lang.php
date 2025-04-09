@@ -21,4 +21,6 @@ $lang = array(
 'custom'                                       => 'benutzerdefiniert',
 'vat_id'                                       => 'Umsatzsteuer-Identifikationsnummer',
 'vat_id_short'                                 => 'USt-IdNr.',
+'subtotal'                                     => 'Zwischensumme (netto)',
+
 );
