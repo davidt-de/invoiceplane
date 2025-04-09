@@ -1,5 +1,3 @@
-<!-- HTML-Vorlagen für InvoicePlane – neutral formuliert, professionell & sympathisch -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +51,7 @@
 	</div>
 
 	<div class="content">
-	  <p>Ich habe eine Zahlung über <strong>{{{payment_amount}}}</strong> zur Rechnung <strong>{{{invoice_number}}}</strong> verbucht.</p>
+	  <p>Ich habe eine Zahlung über <strong>{{{invoice_paid}}}</strong> zur Rechnung <strong>{{{invoice_number}}}</strong> verbucht.</p>
 
 	  <p>Der Vorgang ist damit abgeschlossen.</p>
 
@@ -61,8 +59,9 @@
 
 	  <p>Viele Grüße<br>Der Rechnungsassistent von davidt.de</p>
 	</div>
+	<div class="footer">
+	  Diese Nachricht wurde automatisch versendet. Antworten bei Rückfragen bitte direkt an {{{user_email}}}.
+	</div>
   </div>
 </body>
 </html>
-
-
