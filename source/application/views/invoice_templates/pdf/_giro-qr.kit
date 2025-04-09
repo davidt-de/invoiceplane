@@ -7,8 +7,10 @@
 						<?php echo invoice_qrcode(htmlsc($invoice->invoice_id)); ?>
 						<br> Bezahlen mit Giro-QR-Code
 					<?php else : ?>
-						<img src="<?php echo base_url('assets/core/img/paid.png'); ?>"
-							 style="width: 180px; margin-top: 10px;" alt="Bezahlt-Stempel" />
+						<?php if ($invoice->invoice_balance == 0) {
+							echo '<img src="' . base_url('assets/core/img/bezahlt.png') . '" class="paid-stamp" alt="Bezahlt-Stempel">';
+						} ?>
+
 					<?php endif; ?>
 				</td>
 			</tr>
