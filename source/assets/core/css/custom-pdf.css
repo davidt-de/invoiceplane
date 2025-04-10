@@ -57,6 +57,15 @@
        left: 5mm;
        width: 5mm;
    }
+   
+   table.betreff-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+      border-top: none;
+      border-top-color: none; 
+   
+    }
   /* === ITEM-TABELLE (Rechnungsposten) === */
   table.item-table {
     font-size: 10px !important;

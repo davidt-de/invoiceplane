@@ -9,3 +9,30 @@
          max-width: 200px;
          height: auto;
      }
+     .paid-stamp,
+     .overdue-stamp {
+         position: absolute;
+         bottom: 0;
+         left: -20px;
+         transform: rotate(-22deg)
+     }
+     .item-desc {
+         width: auto;
+     }
+     
+     .item-desc-wide {
+         width: 60%; /* oder was gut aussieht */
+     }
+     table.betreff-table {
+         border-collapse: collapse;
+         width: 100%;
+         margin-bottom: 20px;
+        
+
+       }
+       .betreff-table th,
+       .betreff-table td {
+           border-top: none !important;
+       }
+       /* Einzelne Zellen */
+   
