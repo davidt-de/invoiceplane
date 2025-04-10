@@ -173,84 +173,97 @@
             </div>
 
             <br>
-            <div class="table-responsive">
-<table style="width: 100%; font-size: 9pt; margin-bottom: 20px;">
-              <tr valign="top">
-               <td width="25%">
-                 <strong>Betreff</strong><br />
-                 <?php
-                   if (!empty($invoice->invoice_terms)) {
-                       echo htmlsc($invoice->invoice_terms);
-                   } else {
-                       echo 'Hosting ' . htmlsc($invoice->client_web);
-                   }
-                 ?>
-               </td>
-                  
-                  <td width="auto"><strong>Rechnungsnummer</strong><br  />
-                    <?php echo htmlsc($invoice->invoice_number); ?></td>
-                 
-                 
-                    <td width="auto"><strong>Kundennummer</strong><br  />
-                      <?php echo str_pad($invoice->client_id, 5, '0', STR_PAD_LEFT); ?></td>
-                      
-                      <td width="auto"> <strong>Leistungszeitraum</strong><br  />
-                      <?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
             
-                    <td width="auto" align="right"><strong>Datum</strong><br  />
-                    <?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
-                  </tr>
-                </table>
+            <div class="betreff-table">
+            <div class="table-responsive">
+<!-- @import ../pdf/_betreff-table.kit -->
+
             </div>
+            </div>
+            <!-- Prüfung ob irgendwo Rabatt gewährt wurde -->
+            <?php
+            $has_discount = false;
+            foreach ($items as $item) {
+                if ($item->item_discount > 0) {
+                    $has_discount = true;
+                    break;
+                }
+            }
+            ?>
             <div class="invoice-items">
                 <div class="table-responsive">
                     <table class="table ">
                         <thead style="background-color: #f0f0f0">
                         <tr>
-                            <th><?php echo trans('item'); ?></th>
-                            <th><?php echo trans('description'); ?></th>
-                            <th class="text-right"><?php echo trans('qty'); ?></th>
-                            <th class="text-right"><?php echo trans('price'); ?></th>
-                            <th class="text-right"><?php echo trans('discount'); ?></th>
-                            <th class="text-right"><?php echo trans('total'); ?></th>
-                        </tr>
+                            <th class="text-center">Nr.</th>
+                            <th class="<?php echo $has_discount ? 'item-desc' : 'item-desc-wide'; ?>">Leistung</th>
+                            <th class="item-amount text-right"><?php _trans('qty'); ?></th>
+                            <th class="item-price text-right"><?php _trans('price'); ?></th>
+                            <?php if ($has_discount): ?>
+                            <th class="item-discount text-right"><?php _trans('discount'); ?></th>
+                            <?php endif; ?>
+                            
+                            <th class="item-total text-right"><?php _trans('total'); ?></th>
+                          </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($items as $item) : ?>
+
+                        <?php $pos = 1; foreach ($items as $item) { ?>
                             <tr>
-                                <td><?php _htmlsc($item->item_name); ?></td>
-                                <td><?php echo nl2br(htmlsc($item->item_description)); ?></td>
-                                <td class="amount">
-                                    <?php echo format_quantity($item->item_quantity); ?>
-                                    <?php if ($item->item_product_unit) : ?>
-                                        <br>
-                                        <small><?php _htmlsc($item->item_product_unit); ?></small>
+                                <td class="text-center"><?php echo $pos++; ?></td>
+                        
+                                <td class="<?php echo $has_discount ? 'item-desc' : 'item-desc-wide'; ?>">
+                                    <strong><?php _htmlsc($item->item_name); ?></strong>
+                                    <?php if (!empty($item->item_description)) : ?>
+                                        <div class="text-muted" style="font-size: 90%; margin-top: 2px;">
+                                            <?php echo nl2br(htmlsc($item->item_description)); ?>
+                                        </div>
                                     <?php endif; ?>
                                 </td>
-                                <td class="amount">
-                                <?php echo format_currency($item->item_price); ?> </td>
-                                <td class="amount"><?php echo format_currency($item->item_discount); ?></td>
-                                <td class="amount"><?php echo format_currency($item->item_total); ?></td>
+                        
+                                <td class="text-right">
+                                    <?php echo format_quantity($item->item_quantity); ?>
+                                    <?php if ($item->item_product_unit) : ?>
+                                        <br><small><?php _htmlsc($item->item_product_unit); ?></small>
+                                    <?php endif; ?>
+                                </td>
+                        
+                                <td class="text-right">
+                                    <?php echo format_currency($item->item_price); ?>
+                                </td>
+                        
+                                <?php if ($has_discount): ?>
+                                    <td class="text-right"><?php echo format_currency($item->item_discount); ?></td>
+                                  <?php endif; ?>
+                                   
+                                
+                        
+                                <td class="text-right">
+                                    <?php echo format_currency($item->item_total); ?>
+                                </td>
                             </tr>
-                        <?php endforeach ?>
+                        <?php } ?>
+ 
+                            
+                        <!-- invoice sums -->
                         <tr>
-                            <td colspan="4"></td>
-                            <td class="text-right"><?php echo trans('subtotal'); ?>:</td>
+                            <td colspan="<?php echo $has_discount ? 3 : 2; ?>"></td>
+                            <td colspan="2"class="text-right"><?php echo trans('subtotal'); ?>:</td>
                             <td class="amount"><?php echo format_currency($invoice->invoice_item_subtotal); ?></td>
                         </tr>
 
                         <?php if ($invoice->invoice_item_tax_total > 0) { ?>
                             <tr>
-                                <td class="no-bottom-border" colspan="4"></td>
-                                <td class="text-right"><?php echo 'zzgl. 19% USt.'; ?></td>
+                                <td class="no-bottom-border" colspan="<?php echo $has_discount ? 3 : 2; ?>"></td>
+                                <td colspan="2" class="text-right"><?php echo 'zzgl. 19% 3USt.'; ?></td>
                                 <td class="amount"><?php echo format_currency($invoice->invoice_item_tax_total); ?></td>
                             </tr>
                         <?php } ?>
 
                         <?php foreach ($invoice_tax_rates as $invoice_tax_rate) : ?>
                             <tr>
-                                <td class="no-bottom-border" colspan="4"></td>
-                                <td class="text-right">
+                                <td class="no-bottom-border" colspan="<?php echo $has_discount ? 3 : 2; ?>"></td>
+                                <td class="text-right" colspan="2">
                                     <?php echo 'Zzgl. ' . htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' ' . number_format($invoice_tax_rate->invoice_tax_rate_percent, 0, ',', ''); 
                                      ?>
                                     %
@@ -261,8 +274,8 @@
 
                         <?php if ($invoice->invoice_discount_percent > 0 || $invoice->invoice_discount_amount > 0) : ?>
                             <tr>
-                                <td class="no-bottom-border" colspan="4"></td>
-                                <td class="text-right"><?php echo trans('discount'); ?>:</td>
+                                <td class="no-bottom-border" colspan="<?php echo $has_discount ? 3 : 2; ?>"></td>
+                                <td class="text-right" colspan="2"><?php echo trans('discount'); ?>:</td>
                                 <td class="amount">
                                     <?php
                                     if ($invoice->invoice_discount_percent > 0) {
@@ -276,19 +289,19 @@
                         <?php endif; ?>
 
                         <tr>
-                            <td class="no-bottom-border" colspan="4"></td>
-                            <td class="text-right"><?php echo trans('total'); ?>:</td>
+                            <td class="no-bottom-border" colspan="<?php echo $has_discount ? 3 : 2; ?>"></td>
+                            <td class="text-right" colspan="2"><?php echo trans('total'); ?>:</td>
                             <td class="amount"><?php echo format_currency($invoice->invoice_total); ?></td>
                         </tr>
 
                         <tr>
-                            <td class="no-bottom-border" colspan="4"></td>
-                            <td class="text-right"><?php echo trans('paid'); ?></td>
+                            <td class="no-bottom-border" colspan="<?php echo $has_discount ? 3 : 2; ?>"></td>
+                            <td class="text-right" colspan="2"><?php echo trans('paid'); ?></td>
                             <td class="amount"><?php echo format_currency($invoice->invoice_paid) ?></td>
                         </tr>
                         <tr class="<?php echo ($invoice->invoice_balance > 0) ? 'overdue' : 'text-success'; ?>">
-                            <td class="no-bottom-border" colspan="4"></td>
-                            <td class="text-right"><?php echo trans('balance'); ?></td>
+                            <td class="no-bottom-border" colspan="<?php echo $has_discount ? 3 : 2; ?>"></td>
+                            <td colspan="2" class="text-right"><?php echo trans('balance'); ?></td>
                             <td class="amount">
                                 <b><?php echo format_currency($invoice->invoice_balance) ?></b>
                             </td>
